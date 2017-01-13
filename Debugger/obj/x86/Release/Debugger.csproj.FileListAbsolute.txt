@@ -1,0 +1,21 @@
+C:\Users\Chetan\Desktop\Debugger\Debugger\bin\x86\Release\Debugger.exe.config
+C:\Users\Chetan\Desktop\Debugger\Debugger\obj\x86\Release\Debugger.exe
+C:\Users\Chetan\Desktop\Debugger\Debugger\obj\x86\Release\Debugger.pdb
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\MainWindow.g.cs
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\App.g.cs
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\Debugger_MarkupCompile.cache
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\Debugger_MarkupCompile.lref
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\bin\x86\Release\Debugger.exe.config
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\bin\x86\Release\Debugger.exe
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\bin\x86\Release\Debugger.pdb
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\bin\x86\Release\OpenTokNET.dll
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\bin\x86\Release\WPFVideoRenderer.dll
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\MainWindow.baml
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\Debugger.g.resources
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\Debugger.CreateSessionPopUp.resources
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\Debugger.Properties.Resources.resources
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\Debugger.csproj.GenerateResource.Cache
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\Debugger.exe
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\Debugger.pdb
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\Debugger.csprojResolveAssemblyReference.cache
+C:\Users\Chetan\Documents\Visual Studio 2015\Projects\Debugger\Debugger\obj\x86\Release\Debugger.PublisherSettingsPopup.resources

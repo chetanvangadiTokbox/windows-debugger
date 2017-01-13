@@ -1,0 +1,115 @@
+﻿<Window x:Class="Debugger.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:OpenTok="clr-namespace:OpenTok;assembly=WPFVideoRenderer" 
+        xmlns:local="clr-namespace:Debugger"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="705.143" Width="1095.429">
+    <DockPanel LastChildFill="False" Background="#F2F1EE" Margin="0,0,-113.286,-209.429">
+        <StackPanel DockPanel.Dock="Top" Margin="0,0,0,0" Height="50" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Orientation="Horizontal">
+            <Image x:Name="image" Height="45" Source="Resources/tokbox.png" HorizontalAlignment="Left" IsHitTestVisible="False" Width="180" Margin="20,5,0,0" IsManipulationEnabled="True"/>
+            <Label x:Name="Debugger" Content="Debugger" Margin="0,0,0,0" Height="50" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" FontSize="30" FontStretch="Expanded" HorizontalContentAlignment="Stretch" HorizontalAlignment="Center" FontWeight="Light" FontFamily="Nirmala UI"/>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Left" Margin="5,5,0,0" Width="200" Background="#FFF9F9F9">
+            <DockPanel LastChildFill="False" Background="#FFF9F9F9">
+                <StackPanel DockPanel.Dock="Top" Background="#FFF9F9F9">
+                    <Button x:Name="create_session" Content="Create Session" HorizontalAlignment="Left" Margin="19,15,0,0" VerticalAlignment="Top" Width="160" Click="create_session_controller" Background="#FF69B6E5" BorderThickness="0" Height="40" UseLayoutRounding="False"/>
+                    <Button x:Name="connect_button" Content="Connect" HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top" Width="160" Click="connectController" Background="#FF69B6E5" Height="40" BorderThickness="0"/>
+                    <Button x:Name="publisher_button" Content="Publish" HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Top" Width="160" Click="publisherController" Background="#FF69B6E5" Height="40" BorderThickness="0" />
+                    <Image x:Name="publihser_audio_button" MouseDown="publihser_audio_button_MouseEnter" HorizontalAlignment="Left" Height="26" Margin="19,10,0,0" VerticalAlignment="Top" Width="28" Source="Resources/publisher_audio.png"/>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Background="#FFF9F9F9" Margin="0,136,0,0">
+                    <Button x:Name="subscriber_button" Content="Subscribe" HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Bottom" Width="160" Click="subscriberController" Background="#FF69B6E5" Height="40"/>
+                    <Image x:Name="subscriber_audio_button" MouseDown="subscriber_audio_button_MouseDown" HorizontalAlignment="Left" Height="26" Margin="19,10,0,0" VerticalAlignment="Bottom" Width="28" Source="Resources/subscriber_audio.png" />
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Left" MinWidth="300" Background="#F2F1EE">
+            <DockPanel LastChildFill="False" Background="#F2F1EE">
+                <StackPanel DockPanel.Dock="Top" Background="#F2F1EE">
+                    <OpenTok:VideoRenderer x:Name="publisherVideo" HorizontalAlignment="Left" Height="200" MouseDown="disable_publisher_video" VerticalAlignment="top" Width="300" Margin="0,18,10.429,10.143" BorderBrush="#FF5B1919" BorderThickness="1" >
+                        <OpenTok:VideoRenderer.Effect>
+                            <DropShadowEffect Opacity="0.6"/>
+                        </OpenTok:VideoRenderer.Effect>
+                        <OpenTok:VideoRenderer.Background>
+                            <ImageBrush Stretch="UniformToFill">
+                            </ImageBrush>
+                        </OpenTok:VideoRenderer.Background>
+                    </OpenTok:VideoRenderer>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Background="#F2F1EE" Margin="0,113,0,0">
+                    <OpenTok:VideoRenderer x:Name="subscriberVideo" HorizontalAlignment="Left" Height="200" MouseDown="disable_subscriber_video" MouseDoubleClick="subscriber_settings" VerticalAlignment="Top" Width="300" Margin="0,0,10.429,10.143" BorderBrush="#FF5B1919" BorderThickness="1" >
+                        <OpenTok:VideoRenderer.Effect>
+                            <DropShadowEffect Opacity="0.6"/>
+                        </OpenTok:VideoRenderer.Effect>
+                        <OpenTok:VideoRenderer.Background>
+                            <ImageBrush Stretch="UniformToFill"/>
+                        </OpenTok:VideoRenderer.Background>
+                    </OpenTok:VideoRenderer>
+                </StackPanel>
+            </DockPanel>
+        </StackPanel>
+        <StackPanel x:Name="sessionInfo" DockPanel.Dock="Left" MaxWidth="390" Background="#F2F1EE">
+            <DockPanel LastChildFill="False" Background="#F2F1EE">
+                <StackPanel DockPanel.Dock="Top" Background="#F2F1EE">
+                    <Grid>
+                        <FlowDocumentScrollViewer x:Name="publisherDataTable" VerticalScrollBarVisibility="Auto">
+                            <FlowDocument>
+                                <BlockUIContainer>
+                                    <ListView Name="PublisherData" BorderThickness="0" Height="200" Width="400">
+                                        <ListView.View>
+                                            <GridView x:Name="publisherGrid">
+                                                <GridViewColumn DisplayMemberBinding="{Binding Field}" Width="100" />
+                                                <GridViewColumn Header="Publisher Info" Width="278">
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <TextBox Text="{Binding Value}" Width="278" IsReadOnly="True"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </BlockUIContainer>
+                            </FlowDocument>
+                        </FlowDocumentScrollViewer>
+                    </Grid>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Background="#F2F1EE">
+                  <Grid>
+                    <FlowDocumentScrollViewer x:Name="subscriberDataTable" VerticalScrollBarVisibility="Auto">
+                        <FlowDocument>
+                            <BlockUIContainer>
+                                <ListView Name="SubscriberData" BorderThickness="0" Height="200" Width="400" Margin="0,87,0,0">
+                                    <ListView.View>
+                                        <GridView>
+                                            <GridViewColumn DisplayMemberBinding="{Binding Field}" Width="100" />
+                                                <GridViewColumn Header="Subscriber Info" Width="278">
+                                                <GridViewColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <TextBox Text="{Binding Value}" Width="278" IsReadOnly="True"/>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </GridViewColumn.CellTemplate>
+                                             </GridViewColumn>
+                                        </GridView>
+                                    </ListView.View>
+                                </ListView>
+                            </BlockUIContainer>
+                        </FlowDocument>
+                    </FlowDocumentScrollViewer>
+                 </Grid>
+               </StackPanel>
+            </DockPanel>
+        </StackPanel>
+        <!--<Grid>
+        <UniformGrid x:Name="subscriberGrid" Rows="1" Columns="0">
+            </UniformGrid>
+        </Grid>-->
+    </DockPanel>
+</Window>
