@@ -6,7 +6,7 @@
         xmlns:OpenTok="clr-namespace:OpenTok;assembly=WPFVideoRenderer" 
         xmlns:local="clr-namespace:Debugger"
         mc:Ignorable="d"
-        Title="MainWindow" Height="705.143" Width="1095.429">
+        Title="Debugger" WindowState="Maximized">
     <DockPanel LastChildFill="False" Background="#F2F1EE" Margin="0,0,-113.286,-209.429">
         <StackPanel DockPanel.Dock="Top" Margin="0,0,0,0" Height="50" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" Orientation="Horizontal">
             <Image x:Name="image" Height="45" Source="Resources/tokbox.png" HorizontalAlignment="Left" IsHitTestVisible="False" Width="180" Margin="20,5,0,0" IsManipulationEnabled="True"/>
@@ -21,7 +21,7 @@
                     <Image x:Name="publihser_audio_button" MouseDown="publihser_audio_button_MouseEnter" HorizontalAlignment="Left" Height="26" Margin="19,10,0,0" VerticalAlignment="Top" Width="28" Source="Resources/publisher_audio.png"/>
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Top" Background="#FFF9F9F9" Margin="0,136,0,0">
-                    <Button x:Name="subscriber_button" Content="Subscribe" HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Bottom" Width="160" Click="subscriberController" Background="#FF69B6E5" Height="40"/>
+                    <Button x:Name="subscriber_button" Content="Subscribe" HorizontalAlignment="Left" Margin="19,10,0,0" VerticalAlignment="Bottom" Width="160" Click="subscriberController" Background="#FF69B6E5" Height="40" BorderThickness="0"/>
                     <Image x:Name="subscriber_audio_button" MouseDown="subscriber_audio_button_MouseDown" HorizontalAlignment="Left" Height="26" Margin="19,10,0,0" VerticalAlignment="Bottom" Width="28" Source="Resources/subscriber_audio.png" />
                 </StackPanel>
             </DockPanel>
@@ -80,31 +80,31 @@
                     </Grid>
                 </StackPanel>
                 <StackPanel DockPanel.Dock="Top" Background="#F2F1EE">
-                  <Grid>
-                    <FlowDocumentScrollViewer x:Name="subscriberDataTable" VerticalScrollBarVisibility="Auto">
-                        <FlowDocument>
-                            <BlockUIContainer>
-                                <ListView Name="SubscriberData" BorderThickness="0" Height="200" Width="400" Margin="0,87,0,0">
-                                    <ListView.View>
-                                        <GridView>
-                                            <GridViewColumn DisplayMemberBinding="{Binding Field}" Width="100" />
+                    <Grid>
+                        <FlowDocumentScrollViewer x:Name="subscriberDataTable" VerticalScrollBarVisibility="Auto">
+                            <FlowDocument>
+                                <BlockUIContainer>
+                                    <ListView Name="SubscriberData" BorderThickness="0" Height="200" Width="400" Margin="0,87,0,0">
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn DisplayMemberBinding="{Binding Field}" Width="110" />
                                                 <GridViewColumn Header="Subscriber Info" Width="278">
-                                                <GridViewColumn.CellTemplate>
-                                                    <DataTemplate>
-                                                        <Grid>
-                                                            <TextBox Text="{Binding Value}" Width="278" IsReadOnly="True"/>
-                                                        </Grid>
-                                                    </DataTemplate>
-                                                </GridViewColumn.CellTemplate>
-                                             </GridViewColumn>
-                                        </GridView>
-                                    </ListView.View>
-                                </ListView>
-                            </BlockUIContainer>
-                        </FlowDocument>
-                    </FlowDocumentScrollViewer>
-                 </Grid>
-               </StackPanel>
+                                                    <GridViewColumn.CellTemplate>
+                                                        <DataTemplate>
+                                                            <Grid>
+                                                                <TextBox Text="{Binding Value}" Width="278" IsReadOnly="True"/>
+                                                            </Grid>
+                                                        </DataTemplate>
+                                                    </GridViewColumn.CellTemplate>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </BlockUIContainer>
+                            </FlowDocument>
+                        </FlowDocumentScrollViewer>
+                    </Grid>
+                </StackPanel>
             </DockPanel>
         </StackPanel>
         <!--<Grid>

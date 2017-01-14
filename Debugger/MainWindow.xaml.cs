@@ -4,6 +4,7 @@ using OpenTok;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls.Primitives;
 using System.Windows.Shapes;
+using System.Data;
 
 namespace Debugger
 {
@@ -13,8 +14,8 @@ namespace Debugger
     public partial class MainWindow : Window
     {
         private const string API_KEY = "100";
-        private const string SESSION_ID = "1_MX4xMDB-fjE0ODIzNTU4OTg5NzR-NFpWbjFOTEMveTZBRnlvVGR2K1NrY1Zafn4";
-        private const string TOKEN = "T1==cGFydG5lcl9pZD0xMDAmc2RrX3ZlcnNpb249dGJwaHAtdjAuOTEuMjAxMS0wNy0wNSZzaWc9ZTNhNWI0YmZmMDFkOGVmNmZkMWE5MzAxNWFiZWYxNDQ4MmIxM2FlNjpzZXNzaW9uX2lkPTFfTVg0eE1EQi1makUwT0RJek5UVTRPVGc1TnpSLU5GcFdiakZPVEVNdmVUWkJSbmx2VkdSMksxTnJZMVphZm40JmNyZWF0ZV90aW1lPTE0ODIzNTU3MTUmcm9sZT1tb2RlcmF0b3Imbm9uY2U9MTQ4MjM1NTcxNS4xMTc1MjU3MDE1MTIxJmV4cGlyZV90aW1lPTE0ODQ5NDc3MTU=";
+        private const string SESSION_ID = "1_MX4xMDB-fjE0ODQzMzU2ODI3MDN-dFgxMHBQYk9aRE0vWUt4anlPbW9uNTlyfn4";
+        private const string TOKEN = "T1==cGFydG5lcl9pZD0xMDAmc2RrX3ZlcnNpb249dGJwaHAtdjAuOTEuMjAxMS0wNy0wNSZzaWc9NGM4YjRhOTNmMmNmN2YyZGQxYTBmMDNjOGIxOGMyZDFiMmYyM2E4YzpzZXNzaW9uX2lkPTFfTVg0eE1EQi1makUwT0RRek16VTJPREkzTUROLWRGZ3hNSEJRWWs5YVJFMHZXVXQ0YW5sUGJXOXVOVGx5Zm40JmNyZWF0ZV90aW1lPTE0ODQzMzU0MDcmcm9sZT1tb2RlcmF0b3Imbm9uY2U9MTQ4NDMzNTQwNy40MTM0MjA1NTg1MzUxNCZleHBpcmVfdGltZT0xNDg2OTI3NDA3";
 
         private static String environment = null;
         private static bool sessionTypeIsP2P = false;
@@ -25,14 +26,13 @@ namespace Debugger
         Subscriber subscriber;
         bool SUBSCRIBE_TO_SELF = true;
         bool deleteLater = true;
-    
+
         public MainWindow()
         {
             InitializeComponent();
             connect_button.Visibility = Visibility.Hidden;
             hidePublisherButtons(true);
             hideSubscriberButtons(true);
-            subscriberDataTable.Visibility = Visibility.Hidden;
         }
 
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -69,12 +69,13 @@ namespace Debugger
             Console.WriteLine("Session: Stream Received ");
             stream = e.Stream;
             Dispatcher.Invoke(() => {
-            subscriber_button.Visibility = Visibility.Visible;
-            if (deleteLater)
+                subscriber_button.Visibility = Visibility.Visible;
+                if (deleteLater)
                 {
-                   
 
-                } else
+
+                }
+                else
                 {
                     //Console.WriteLine("in else");
                     //VideoRenderer renderer = new VideoRenderer();
@@ -119,7 +120,7 @@ namespace Debugger
 
         private void Publisher_StreamCreated(object sender, Publisher.StreamCreatedEventArgs e)
         {
-            addPublisherDataTable();
+            updatePublisherDataTable();
             if (SUBSCRIBE_TO_SELF == true)
             {
                 Console.WriteLine("Publisher Stream Created" + e.stream.Id);
@@ -137,7 +138,7 @@ namespace Debugger
 
         private void Publisher_StreamDestroyed(object sender, Publisher.StreamDestroyedEventArgs e)
         {
-            Console.WriteLine("Publisher: Stream Destroyed" );
+            Console.WriteLine("Publisher: Stream Destroyed");
         }
 
         private void Subscriber_Connected(object sender, EventArgs e)
@@ -148,11 +149,13 @@ namespace Debugger
         private void Subscriber_VideoEnabled(object sender, Subscriber.VideoEnabledEventArgs e)
         {
             Console.WriteLine("Subscriber: Video Enabled  ");
+            //updateSubscriberDataTable();
         }
 
         private void Subscriber_VideoDisabled(object sender, Subscriber.VideoDisabledEventArgs e)
         {
             Console.WriteLine("Subscriber: Video Disabled ");
+            //updateSubscriberDataTable();
         }
 
         private void Subscriber_StreamReconnected(object sender, EventArgs e)
@@ -167,7 +170,7 @@ namespace Debugger
         }
 
         private void create_session_controller(object sender, RoutedEventArgs e)
-        {      
+        {
             //Rectangle rect = new Rectangle();
             //rect.Width = 500;
             //rect.Height = 500;
@@ -210,10 +213,10 @@ namespace Debugger
         private void connectController(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Connect Controller: Connecting to Session ");
-            if(connect_button.Content.Equals("Connect"))
+            if (connect_button.Content.Equals("Connect"))
             {
                 session.Connect(TOKEN);
-                Dispatcher.Invoke(() =>{
+                Dispatcher.Invoke(() => {
                     connect_button.Content = "Disconnect";
                 });
             }
@@ -236,7 +239,7 @@ namespace Debugger
                         PublisherSettingsPopup publishSettingsPopup = new PublisherSettingsPopup();
                         System.Windows.Forms.DialogResult dialogResultPublisherPopup
                             = publishSettingsPopup.ShowDialog();
-                        if(dialogResultPublisherPopup == System.Windows.Forms.DialogResult.OK)
+                        if (dialogResultPublisherPopup == System.Windows.Forms.DialogResult.OK)
                         {
                             publisher.PublishAudio = PublisherSettingsPopup.isAudioEnabled;
                             publisher.PublishVideo = PublisherSettingsPopup.isVideoEnabled;
@@ -265,15 +268,14 @@ namespace Debugger
                     publisherVideo.Visibility = Visibility.Hidden;
                     publisherDataTable.Visibility = Visibility.Hidden;
                 }
-            });   
+            });
         }
 
         private void publihser_audio_button_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            updatePublisherDataTable();
             Dispatcher.Invoke(() =>
             {
-                if(publisher != null)
+                if (publisher != null)
                 {
                     if (publisher.PublishAudio == true)
                     {
@@ -285,11 +287,12 @@ namespace Debugger
                         publisher.PublishAudio = true;
                         publihser_audio_button.Source = new BitmapImage(new Uri(@"Resources/publisher_audio.png", UriKind.Relative));
                     }
+                    updatePublisherDataTable();
                 }
             });
         }
 
-        private void subscriberController (object sender, RoutedEventArgs e)
+        private void subscriberController(object sender, RoutedEventArgs e)
         {
             Dispatcher.Invoke(() =>
             {
@@ -302,6 +305,8 @@ namespace Debugger
                     subscriber_button.Content = "Unsubscribe";
                     hideSubscriberButtons(false);
                     subscriberVideo.Visibility = Visibility.Visible;
+                    subscriberDataTable.Visibility = Visibility.Visible;
+                    updateSubscriberDataTable();
                 }
                 else
                 {
@@ -324,7 +329,7 @@ namespace Debugger
         private void subscriber_audio_button_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Dispatcher.Invoke(() => {
-                if(subscriber != null)
+                if (subscriber != null)
                 {
                     if (subscriber.SubscribeToAudio == true)
                     {
@@ -336,6 +341,7 @@ namespace Debugger
                         subscriber.SubscribeToAudio = true;
                         subscriber_audio_button.Source = new BitmapImage(new Uri(@"Resources/subscriber_audio.png", UriKind.Relative));
                     }
+                    updateSubscriberDataTable();
                 }
             });
         }
@@ -436,17 +442,19 @@ namespace Debugger
         private void disable_publisher_video(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Console.WriteLine("publisher video mouse down");
-            if(publisher != null)
+            if (publisher != null)
             {
                 Dispatcher.Invoke(() => {
-                    if(publisher.PublishVideo == true)
+                    if (publisher.PublishVideo == true)
                     {
                         publisher.PublishVideo = false;
-                    } else
+                    }
+                    else
                     {
                         publisher.PublishVideo = true;
                     }
                 });
+                updatePublisherDataTable();
             }
         }
 
@@ -465,6 +473,7 @@ namespace Debugger
                         subscriber.SubscribeToVideo = true;
                     }
                 });
+                updateSubscriberDataTable();
             }
         }
 
@@ -479,33 +488,24 @@ namespace Debugger
             public string Value { get; set; }
         }
 
-        private void addPublisherDataTable()
-        {            Dispatcher.Invoke(() => {
-                PublisherData.Items.Add(new PublisherSubscriberInfo() { Field = "Stream ID", Value = publisher.Stream.Id });
-                PublisherData.Items.Add(new PublisherSubscriberInfo() { Field = "Has Audio", Value = Convert.ToString(publisher.PublishAudio) });
-                PublisherData.Items.Add(new PublisherSubscriberInfo() { Field = "Has Video", Value = Convert.ToString(publisher.PublishVideo) }); 
-            });
-        }
-
-        private void addSubscriberDataTable()
-        {
-            Dispatcher.Invoke(() => {
-                SubscriberData.Items.Add(new PublisherSubscriberInfo() { Field = "Subscriber ID", Value = "subscriber.Id" });
-                SubscriberData.Items.Add(new PublisherSubscriberInfo() { Field = "Has Audio", Value = "Convert.ToString(subscriber.SubscribeToAudio)" });
-                SubscriberData.Items.Add(new PublisherSubscriberInfo() { Field = "Has Video", Value = "Convert.ToString(subscriber.SubscribeToVideo)" });
-            });
-        }
-
         private void updatePublisherDataTable()
         {
-            Console.WriteLine( PublisherData.Items);
-            foreach(PublisherSubscriberInfo item in PublisherData.Items)
-            {
-                Console.WriteLine(PublisherData.Items.CurrentItem);
-            }
-            PublisherData.Items.Add(new PublisherSubscriberInfo() { Field = "SUbscriber ID", Value = publisher.Stream.Id });
-            PublisherData.Items.Add(new PublisherSubscriberInfo() { Field = "Has Vide", Value = Convert.ToString(publisher.PublishAudio) });
-            PublisherData.Items.Add(new PublisherSubscriberInfo() { Field = "Has Audio", Value = Convert.ToString(publisher.PublishVideo) });
+            Dispatcher.Invoke(() => {
+                PublisherData.Items.Clear();
+                PublisherData.Items.Add(new PublisherSubscriberInfo() { Field = "Stream ID", Value = publisher.Stream.Id });
+                PublisherData.Items.Add(new PublisherSubscriberInfo() { Field = "Audio", Value = Convert.ToString(publisher.PublishAudio) });
+                PublisherData.Items.Add(new PublisherSubscriberInfo() { Field = "Video", Value = Convert.ToString(publisher.PublishVideo) });
+            });
+        }
+
+        private void updateSubscriberDataTable()
+        {
+            Dispatcher.Invoke(() => {
+                SubscriberData.Items.Clear();
+                SubscriberData.Items.Add(new PublisherSubscriberInfo() { Field = "Subscriber ID", Value = subscriber.Id });
+                SubscriberData.Items.Add(new PublisherSubscriberInfo() { Field = "Audio", Value = Convert.ToString(subscriber.SubscribeToAudio) });
+                SubscriberData.Items.Add(new PublisherSubscriberInfo() { Field = "Video", Value = Convert.ToString(subscriber.SubscribeToVideo) });
+            });
         }
     }
 }
