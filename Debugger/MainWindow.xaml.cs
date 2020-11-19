@@ -14,8 +14,8 @@ namespace Debugger
     public partial class MainWindow : Window
     {
         private const string API_KEY = "100";
-        private const string SESSION_ID = "1_MX4xMDB-fjE0ODQzMzU2ODI3MDN-dFgxMHBQYk9aRE0vWUt4anlPbW9uNTlyfn4";
-        private const string TOKEN = "T1==cGFydG5lcl9pZD0xMDAmc2RrX3ZlcnNpb249dGJwaHAtdjAuOTEuMjAxMS0wNy0wNSZzaWc9NGM4YjRhOTNmMmNmN2YyZGQxYTBmMDNjOGIxOGMyZDFiMmYyM2E4YzpzZXNzaW9uX2lkPTFfTVg0eE1EQi1makUwT0RRek16VTJPREkzTUROLWRGZ3hNSEJRWWs5YVJFMHZXVXQ0YW5sUGJXOXVOVGx5Zm40JmNyZWF0ZV90aW1lPTE0ODQzMzU0MDcmcm9sZT1tb2RlcmF0b3Imbm9uY2U9MTQ4NDMzNTQwNy40MTM0MjA1NTg1MzUxNCZleHBpcmVfdGltZT0xNDg2OTI3NDA3";
+        private const string SESSION_ID = "2_MX4xMDB-fjE2MDUxMjQ1NzQ0NTR-STZQeEFBKzRsUjJreGdFWUJHRVVqdW9hfn4";
+        private const string TOKEN = "T1==cGFydG5lcl9pZD0xMDAmc2RrX3ZlcnNpb249dGJwaHAtdjAuOTEuMjAxMS0wNy0wNSZzaWc9MmI0ZGRmNTg0YmI2NzNkZTljZDdhZjdkNmRkODI3MGQ0OTE5MTE0ZjpzZXNzaW9uX2lkPTJfTVg0eE1EQi1makUyTURVeE1qUTFOelEwTlRSLVNUWlFlRUZCS3pSc1VqSnJlR2RGV1VKSFJWVnFkVzloZm40JmNyZWF0ZV90aW1lPTE2MDUxMjQ1NzQmcm9sZT1tb2RlcmF0b3Imbm9uY2U9MTYwNTEyNDU3NC41MDkyMTQ3Mjg0NDkyOCZleHBpcmVfdGltZT0xNjA3NzE2NTc0";
 
         private static String environment = null;
         private static bool sessionTypeIsP2P = false;
@@ -30,7 +30,7 @@ namespace Debugger
         public MainWindow()
         {
             InitializeComponent();
-            connect_button.Visibility = Visibility.Hidden;
+            create_session.Visibility = Visibility.Hidden;
             hidePublisherButtons(true);
             hideSubscriberButtons(true);
         }
@@ -54,7 +54,9 @@ namespace Debugger
             Dispatcher.Invoke(() => {
                 connect_button.Content = "Disconnect";
             });
-            publisher = new Publisher(Context.Instance, renderer: publisherVideo);
+            publisher = new Publisher.Builder(Context.Instance)
+            .Build();
+
             setPublisherCallbacks(publisher);
             hidePublisherButtons(false);
         }
@@ -118,13 +120,13 @@ namespace Debugger
             });
         }
 
-        private void Publisher_StreamCreated(object sender, Publisher.StreamCreatedEventArgs e)
+        private void Publisher_StreamCreated(object sender, Publisher.StreamEventArgs e)
         {
             updatePublisherDataTable();
             if (SUBSCRIBE_TO_SELF == true)
             {
-                Console.WriteLine("Publisher Stream Created" + e.stream.Id);
-                stream = e.stream;
+                Console.WriteLine("Publisher Stream Created" + e.Stream.Id);
+                stream = e.Stream;
                 Dispatcher.Invoke(() => {
                     subscriber_button.Visibility = Visibility.Visible;
                 });
@@ -136,7 +138,7 @@ namespace Debugger
             Console.WriteLine("Publisher: Publisher error");
         }
 
-        private void Publisher_StreamDestroyed(object sender, Publisher.StreamDestroyedEventArgs e)
+        private void Publisher_StreamDestroyed(object sender, Publisher.StreamEventArgs e)
         {
             Console.WriteLine("Publisher: Stream Destroyed");
         }
@@ -144,18 +146,6 @@ namespace Debugger
         private void Subscriber_Connected(object sender, EventArgs e)
         {
             Console.WriteLine("Subscriber: Subscriber Connected ");
-        }
-
-        private void Subscriber_VideoEnabled(object sender, Subscriber.VideoEnabledEventArgs e)
-        {
-            Console.WriteLine("Subscriber: Video Enabled  ");
-            //updateSubscriberDataTable();
-        }
-
-        private void Subscriber_VideoDisabled(object sender, Subscriber.VideoDisabledEventArgs e)
-        {
-            Console.WriteLine("Subscriber: Video Disabled ");
-            //updateSubscriberDataTable();
         }
 
         private void Subscriber_StreamReconnected(object sender, EventArgs e)
@@ -193,16 +183,7 @@ namespace Debugger
                 sessionTypeIsP2P = CreateSessionPopup.sessionTypeIsP2P;
                 isConnectionEventSupressed = CreateSessionPopup.isConnectionEventSupressed;
             }
-            try
-            {
-                session = new Session(Context.Instance, API_KEY, SESSION_ID);
-                setSessionCallbacks(session);
-            }
-            catch (OpenTokException exception)
-            {
-                Console.WriteLine(exception.Data);
-            }
-
+          
             Closing += MainWindow_Closing;
             this.Dispatcher.Invoke(() =>
             {
@@ -215,6 +196,16 @@ namespace Debugger
             Console.WriteLine("Connect Controller: Connecting to Session ");
             if (connect_button.Content.Equals("Connect"))
             {
+                try
+                {
+                    session = new Session.Builder(Context.Instance, API_KEY, SESSION_ID).Build();
+                    setSessionCallbacks(session);
+                }
+                catch (OpenTokException exception)
+                {
+                    Console.WriteLine(exception.Data);
+                }
+
                 session.Connect(TOKEN);
                 Dispatcher.Invoke(() => {
                     connect_button.Content = "Disconnect";
@@ -299,7 +290,7 @@ namespace Debugger
                 if ("Subscribe".Equals(subscriber_button.Content))
                 {
                     Console.WriteLine("subscriber controller" + stream.Id);
-                    subscriber = new Subscriber(Context.Instance, stream, subscriberVideo);
+                    subscriber = new Subscriber.Builder(Context.Instance, stream).Build();
                     setSubscriberCallbacks(subscriber);
                     session.Subscribe(subscriber);
                     subscriber_button.Content = "Unsubscribe";
@@ -437,6 +428,16 @@ namespace Debugger
             subscriber.VideoEnabled += Subscriber_VideoEnabled;
             subscriber.Connected += Subscriber_Connected;
             subscriber.Error += Subscriber_Error;
+        }
+
+        private void Subscriber_VideoEnabled(object sender, Subscriber.VideoEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void Subscriber_VideoDisabled(object sender, Subscriber.VideoEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void disable_publisher_video(object sender, System.Windows.Input.MouseButtonEventArgs e)
